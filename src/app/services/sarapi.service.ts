@@ -23,7 +23,7 @@ export class SarapiService {
       'Authorization': `Basic ${credentials}` // Agrega las credenciales al encabezado
     });
 
-    return this.http.get<any>(`${environment.apiUrl}pokemon?limit=5&offset=0`, { headers });
+    return this.http.post<any>(`${environment.apiUrl}pokemon?limit=5&offset=0`, { headers });
   }
 
 
