@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { Pokemon } from '../../interfaces/pokemon.interfaces';
 
 @Component({
   selector: 'app-pokemon',
@@ -10,7 +11,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class PokemonComponent implements OnInit {
 
-  Pokemon: any = [];
+  Pokemon?: Pokemon;
 
   constructor(
     private apiService: ApiService
@@ -25,6 +26,20 @@ export class PokemonComponent implements OnInit {
         console.log(error);
       }
     );
+
+    /*
+        this.apiService.getAllPokemon().subscribe(
+      {
+        next: (poke: Pokemon | undefined) => {
+          console.log(poke)
+          this.pokemon = poke;
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      }
+    );
+    */
 
 
   }
