@@ -1,47 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { Pokemon } from '../../interfaces/pokemon.interfaces';
+import { Pokemon, PokemonResults } from '../../interfaces/pokemon.interfaces';
+import { ActivatedRoute } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+import { EMPTY, Observable, catchError, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-pokemon',
   standalone: true,
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './pokemon.component.html',
   styleUrl: './pokemon.component.css'
 })
 export class PokemonComponent implements OnInit {
 
-  Pokemon?: Pokemon;
+  public PokemonResults$!: Observable<PokemonResults>;
+  public errorMessages!: string;
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.apiService.getAllPokemon().subscribe((data) => {
-      console.log(data);
-      this.Pokemon = data;
-    },
-      (error) => {
-        console.log(error);
-      }
-    );
-
-    /*
-        this.apiService.getAllPokemon().subscribe(
-      {
-        next: (poke: Pokemon | undefined) => {
-          console.log(poke)
-          this.pokemon = poke;
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      }
-    );
-    */
-
-
+    this.PokemonResults$ = this.apiService.getAllPokemon().pipe(
+      catchError((error: string) => {
+        this.errorMessages = error;
+        return EMPTY;
+      }))
   }
-
 }
