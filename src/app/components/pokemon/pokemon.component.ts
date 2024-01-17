@@ -18,6 +18,8 @@ export class PokemonComponent implements OnInit {
   public PokemonResults$!: Observable<PokemonResults>;
   public errorMessages!: string;
 
+  test: any[] = [];
+
   constructor(
     private apiService: ApiService,
     private route: ActivatedRoute
@@ -29,5 +31,14 @@ export class PokemonComponent implements OnInit {
         this.errorMessages = error;
         return EMPTY;
       }))
+
+      this.PokemonResults$.subscribe((data: any) => {
+        console.log(data);
+        this.test = data.results;
+        console.log(this.test);
+      }
+      );
   }
+
+
 }

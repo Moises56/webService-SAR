@@ -20,10 +20,17 @@ export class SarapiService {
     const credentials = btoa(`${this.username}:${this.password}`); // Codifica las credenciales a Base64
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Credentials': 'true',
       'Authorization': `Basic ${credentials}` // Agrega las credenciales al encabezado
     });
 
-    return this.http.post<any>(`${environment.apiUrl}pokemon?limit=5&offset=0`, { headers });
+    return this.http.post<any>(`${environment.conRTNUrl}`,  {
+      rtn: "08019998379342"
+    }, { headers }
+   );
   }
 
 
